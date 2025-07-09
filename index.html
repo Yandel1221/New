@@ -1,0 +1,646 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeCast - Comparte tu Vibe</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <div class="gradient-bg">
+                <div class="app-logo">
+                    <i class="fas fa-play-circle"></i>
+                    <h1>VibeCast</h1>
+                </div>
+                <div class="welcome-buttons">
+                    <button class="btn primary" onclick="showScreen('login-screen')">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Iniciar Sesión
+                    </button>
+                    <button class="btn secondary" onclick="showScreen('register-screen')">
+                        <i class="fas fa-user-plus"></i>
+                        Registrarse
+                    </button>
+                    <button class="btn link" onclick="showScreen('forgot-password')">
+                        ¿Olvidaste tu contraseña?
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen">
+            <div class="form-container">
+                <button class="back-btn" onclick="showScreen('welcome-screen')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Iniciar Sesión</h2>
+                <form class="auth-form">
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Correo electrónico" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Contraseña" required>
+                    </div>
+                    <button type="submit" class="btn primary pulse" onclick="showScreen('home-screen')">
+                        Continuar
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Register Screen -->
+        <div id="register-screen" class="screen">
+            <div class="form-container">
+                <button class="back-btn" onclick="showScreen('welcome-screen')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Registrarse</h2>
+                <form class="auth-form">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Nombre completo" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Correo electrónico" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Contraseña" required>
+                    </div>
+                    <button type="submit" class="btn primary pulse" onclick="showScreen('profile-photo-screen')">
+                        Continuar
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Profile Photo Screen -->
+        <div id="profile-photo-screen" class="screen">
+            <div class="form-container">
+                <button class="back-btn" onclick="showScreen('register-screen')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Foto de Perfil</h2>
+                <div class="profile-photo-section">
+                    <div class="photo-preview">
+                        <div class="photo-circle">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <div class="photo-options">
+                        <button class="btn secondary">
+                            <i class="fas fa-camera"></i>
+                            Tomar Foto
+                        </button>
+                        <button class="btn secondary">
+                            <i class="fas fa-images"></i>
+                            Galería
+                        </button>
+                    </div>
+                    <button class="btn primary pulse" onclick="showScreen('username-screen')">
+                        Continuar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Username Screen -->
+        <div id="username-screen" class="screen">
+            <div class="form-container">
+                <button class="back-btn" onclick="showScreen('profile-photo-screen')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Nombre de Usuario</h2>
+                <div class="username-section">
+                    <div class="input-group">
+                        <i class="fas fa-at"></i>
+                        <input type="text" id="username-input" placeholder="tu_nombre_usuario" oninput="validateUsername()">
+                        <span class="validation-icon" id="validation-icon"></span>
+                    </div>
+                    <p class="username-hint">Tu nombre de usuario debe ser único</p>
+                    <button class="btn primary pulse" onclick="showScreen('home-screen')">
+                        Continuar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Home Screen -->
+        <div id="home-screen" class="screen">
+            <div class="home-container">
+                <div class="content-area" id="content-area">
+                    <!-- Home Content -->
+                    <div id="home-content" class="content-section active">
+                        <h2>Inicio</h2>
+                        <div class="feed">
+                            <div class="video-card">
+                                <div class="video-placeholder">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                                <div class="video-info">
+                                    <h4>@maria_dance</h4>
+                                    <p>¡Nuevo paso de baile! #baile #trending</p>
+                                </div>
+                                <div class="video-actions">
+                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                    <button class="action-btn"><i class="fas fa-comment"></i></button>
+                                    <button class="action-btn"><i class="fas fa-share"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shorts Content -->
+                    <div id="shorts-content" class="content-section">
+                        <div class="shorts-viewer">
+                            <div class="short-video-container">
+                                <div class="short-video">
+                                    <div class="video-placeholder vertical">
+                                        <i class="fas fa-play"></i>
+                                        <div class="video-overlay">
+                                            <div class="creator-info">
+                                                <div class="creator-avatar">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                                <span>@carlos_music</span>
+                                                <button class="follow-btn">Seguir</button>
+                                            </div>
+                                            <div class="video-description">
+                                                <p>¡Video increíble! #viral #trending #fyp #amazing</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- TikTok-style side actions -->
+                                    <div class="tiktok-actions">
+                                        <button class="tiktok-action-btn like-btn" onclick="toggleLike(this)">
+                                            <i class="fas fa-heart"></i>
+                                            <span>1.2k</span>
+                                        </button>
+                                        <button class="tiktok-action-btn comment-btn" onclick="showComments()">
+                                            <i class="fas fa-comment"></i>
+                                            <span>85</span>
+                                        </button>
+                                        <button class="tiktok-action-btn share-btn" onclick="shareVideo()">
+                                            <i class="fas fa-share"></i>
+                                            <span>Share</span>
+                                        </button>
+                                        <button class="tiktok-action-btn save-btn" onclick="saveVideo()">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span>Save</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="swipe-indicator">
+                                    <i class="fas fa-chevron-up"></i>
+                                    <p>Desliza hacia arriba</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Your Videos Content -->
+                    <div id="videos-content" class="content-section">
+                        <h2>Crear Contenido</h2>
+                        <div class="create-options">
+                            <div class="create-grid">
+                                <button class="create-option" onclick="openCamera()">
+                                    <i class="fas fa-video"></i>
+                                    <span>Grabar Video</span>
+                                </button>
+                                <button class="create-option" onclick="openPhotoCamera()">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Tomar Foto</span>
+                                </button>
+                                <button class="create-option" onclick="openGallery()">
+                                    <i class="fas fa-images"></i>
+                                    <span>Galería</span>
+                                </button>
+                                <button class="create-option" onclick="showMyVideos()">
+                                    <i class="fas fa-play-circle"></i>
+                                    <span>Mis Videos</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- My Videos Grid -->
+                        <div id="my-videos-grid" class="my-videos-grid" style="display: none;">
+                            <h3>Mis Videos</h3>
+                            <div class="videos-grid">
+                                <div class="video-thumbnail">
+                                    <div class="thumbnail-placeholder">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div class="video-stats">
+                                        <span><i class="fas fa-heart"></i> 234</span>
+                                        <span><i class="fas fa-eye"></i> 1.5k</span>
+                                    </div>
+                                </div>
+                                <div class="video-thumbnail">
+                                    <div class="thumbnail-placeholder">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div class="video-stats">
+                                        <span><i class="fas fa-heart"></i> 89</span>
+                                        <span><i class="fas fa-eye"></i> 567</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Friends Content -->
+                    <div id="friends-content" class="content-section">
+                        <h2>Amigos</h2>
+                        <div class="friends-list">
+                            <div class="friend-card">
+                                <div class="friend-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="friend-info">
+                                    <h4>Ana López</h4>
+                                    <p>@ana_lopez</p>
+                                </div>
+                                <button class="btn small">Seguir</button>
+                            </div>
+                            <div class="friend-card">
+                                <div class="friend-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="friend-info">
+                                    <h4>Diego Ramírez</h4>
+                                    <p>@diego_ram</p>
+                                </div>
+                                <button class="btn small">Seguir</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Content -->
+                    <div id="settings-content" class="content-section">
+                        <h2>Ajustes</h2>
+                        <div class="settings-list">
+                            <div class="setting-item">
+                                <i class="fas fa-language"></i>
+                                <span>Idioma</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            <div class="setting-item">
+                                <i class="fas fa-bell"></i>
+                                <span>Notificaciones</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            <div class="setting-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Privacidad</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            <div class="setting-item">
+                                <i class="fas fa-palette"></i>
+                                <span>Apariencia</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            <div class="setting-item">
+                                <i class="fas fa-camera"></i>
+                                <span>Cambiar foto de perfil</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            <div class="setting-item danger">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Cerrar sesión</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            <div class="setting-item danger">
+                                <i class="fas fa-trash"></i>
+                                <span>Eliminar cuenta</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Navigation -->
+                <nav class="bottom-nav">
+                    <button class="nav-btn active" onclick="showContent('home-content')">
+                        <i class="fas fa-home"></i>
+                        <span>Inicio</span>
+                    </button>
+                    <button class="nav-btn" onclick="showContent('shorts-content')">
+                        <i class="fas fa-film"></i>
+                        <span>Shorts</span>
+                    </button>
+                    <button class="nav-btn" onclick="showContent('videos-content')">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Videos</span>
+                    </button>
+                    <button class="nav-btn" onclick="showContent('friends-content')">
+                        <i class="fas fa-users"></i>
+                        <span>Amigos</span>
+                    </button>
+                    <button class="nav-btn" onclick="showContent('settings-content')">
+                        <i class="fas fa-cog"></i>
+                        <span>Ajustes</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Forgot Password Screen -->
+        <div id="forgot-password" class="screen">
+            <div class="form-container">
+                <button class="back-btn" onclick="showScreen('welcome-screen')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Recuperar Contraseña</h2>
+                <form class="auth-form">
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Correo electrónico" required>
+                    </div>
+                    <button type="submit" class="btn primary pulse">
+                        Enviar enlace
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Camera Modal -->
+        <div id="camera-modal" class="modal">
+            <div class="camera-container">
+                <div class="camera-header">
+                    <button class="close-btn" onclick="closeCamera()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h3 id="camera-title">Grabar Video</h3>
+                    <button class="camera-switch" onclick="switchCamera()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                
+                <div class="camera-preview">
+                    <div class="camera-placeholder">
+                        <div class="camera-viewfinder"></div>
+                    </div>
+                    <div class="camera-overlays">
+                        <div class="timer" id="recording-timer" style="display: none;">00:00</div>
+                        <div class="grid-lines" id="grid-lines" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <div class="camera-controls">
+                    <button class="camera-control-btn" onclick="toggleFlash()">
+                        <i class="fas fa-bolt" id="flash-icon"></i>
+                    </button>
+                    
+                    <button class="record-btn" id="record-btn" onclick="toggleRecording()">
+                        <div class="record-circle">
+                            <i class="fas fa-circle" id="record-icon"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="camera-control-btn" onclick="toggleGrid()">
+                        <i class="fas fa-th" id="grid-icon"></i>
+                    </button>
+                </div>
+
+                <div class="camera-modes">
+                    <button class="mode-btn active" data-mode="video">Video</button>
+                    <button class="mode-btn" data-mode="photo">Foto</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Modal -->
+        <div id="gallery-modal" class="modal">
+            <div class="gallery-container">
+                <div class="gallery-header">
+                    <button class="close-btn" onclick="closeGallery()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h3>Seleccionar Media</h3>
+                    <button class="select-multiple-btn" onclick="toggleMultiSelect()">
+                        <i class="fas fa-check-square"></i>
+                    </button>
+                </div>
+                
+                <div class="media-filters">
+                    <button class="filter-btn active" data-filter="all">Todo</button>
+                    <button class="filter-btn" data-filter="photos">Fotos</button>
+                    <button class="filter-btn" data-filter="videos">Videos</button>
+                </div>
+
+                <div class="gallery-grid">
+                    <!-- Archivos multimedia -->
+                    <div class="gallery-item video" onclick="selectMedia(this)">
+                        <div class="media-thumbnail">
+                            <i class="fas fa-play"></i>
+                            <div class="duration">0:15</div>
+                        </div>
+                        <div class="selection-overlay">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item photo" onclick="selectMedia(this)">
+                        <div class="media-thumbnail">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <div class="selection-overlay">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item video" onclick="selectMedia(this)">
+                        <div class="media-thumbnail">
+                            <i class="fas fa-play"></i>
+                            <div class="duration">0:30</div>
+                        </div>
+                        <div class="selection-overlay">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item photo" onclick="selectMedia(this)">
+                        <div class="media-thumbnail">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <div class="selection-overlay">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-actions">
+                    <span class="selected-count">0 seleccionados</span>
+                    <button class="btn primary" onclick="processSelectedMedia()">
+                        Continuar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Preview Modal -->
+        <div id="upload-modal" class="modal">
+            <div class="upload-container">
+                <div class="upload-header">
+                    <button class="close-btn" onclick="closeUpload()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h3>Preparar Publicación</h3>
+                    <button class="btn primary small" onclick="publishContent()">
+                        Publicar
+                    </button>
+                </div>
+
+                <div class="upload-content">
+                    <div class="media-preview">
+                        <div class="preview-placeholder">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="upload-progress" style="display: none;">
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <span class="progress-text">Procesando... 0%</span>
+                        </div>
+                    </div>
+
+                    <div class="upload-form">
+                        <div class="description-section">
+                            <textarea 
+                                id="description-input" 
+                                placeholder="Escribe una descripción... #hashtag"
+                                oninput="updateCharCount()"
+                                maxlength="300"
+                            ></textarea>
+                            <div class="char-count">
+                                <span id="char-count">0</span>/300
+                            </div>
+                        </div>
+
+                        <div class="hashtag-suggestions">
+                            <h4>Hashtags Sugeridos:</h4>
+                            <div class="hashtag-list">
+                                <span class="hashtag-suggestion" onclick="addHashtag('#viral')">#viral</span>
+                                <span class="hashtag-suggestion" onclick="addHashtag('#fyp')">#fyp</span>
+                                <span class="hashtag-suggestion" onclick="addHashtag('#trending')">#trending</span>
+                                <span class="hashtag-suggestion" onclick="addHashtag('#funny')">#funny</span>
+                                <span class="hashtag-suggestion" onclick="addHashtag('#dance')">#dance</span>
+                            </div>
+                        </div>
+
+                        <div class="privacy-settings">
+                            <h4>Configuración de Privacidad:</h4>
+                            <div class="privacy-options">
+                                <label class="privacy-option">
+                                    <input type="radio" name="privacy" value="public" checked>
+                                    <div class="option-content">
+                                        <i class="fas fa-globe"></i>
+                                        <span>Público</span>
+                                    </div>
+                                </label>
+                                <label class="privacy-option">
+                                    <input type="radio" name="privacy" value="friends">
+                                    <div class="option-content">
+                                        <i class="fas fa-users"></i>
+                                        <span>Solo Amigos</span>
+                                    </div>
+                                </label>
+                                <label class="privacy-option">
+                                    <input type="radio" name="privacy" value="private">
+                                    <div class="option-content">
+                                        <i class="fas fa-lock"></i>
+                                        <span>Privado</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comments Modal -->
+        <div id="comments-modal" class="modal">
+            <div class="comments-container">
+                <div class="comments-header">
+                    <button class="close-btn" onclick="closeComments()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h3>Comentarios</h3>
+                </div>
+                
+                <div class="comments-list">
+                    <div class="comment">
+                        <div class="comment-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="comment-content">
+                            <div class="comment-header">
+                                <span class="username">@usuario1</span>
+                                <span class="time">2h</span>
+                            </div>
+                            <p>¡Increíble video! 🔥🔥</p>
+                            <div class="comment-actions">
+                                <button class="comment-action">
+                                    <i class="fas fa-heart"></i> 12
+                                </button>
+                                <button class="comment-action">Responder</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-comment">
+                    <input type="text" placeholder="Añade un comentario..." id="comment-input">
+                    <button class="send-comment-btn" onclick="addComment()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Share Modal -->
+        <div id="share-modal" class="modal">
+            <div class="share-container">
+                <div class="share-header">
+                    <button class="close-btn" onclick="closeShare()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h3>Compartir</h3>
+                </div>
+                
+                <div class="share-options">
+                    <div class="share-option" onclick="shareToApp('whatsapp')">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </div>
+                    <div class="share-option" onclick="shareToApp('instagram')">
+                        <i class="fab fa-instagram"></i>
+                        <span>Instagram</span>
+                    </div>
+                    <div class="share-option" onclick="shareToApp('facebook')">
+                        <i class="fab fa-facebook"></i>
+                        <span>Facebook</span>
+                    </div>
+                    <div class="share-option" onclick="shareToApp('twitter')">
+                        <i class="fab fa-twitter"></i>
+                        <span>Twitter</span>
+                    </div>
+                    <div class="share-option" onclick="copyLink()">
+                        <i class="fas fa-link"></i>
+                        <span>Copiar enlace</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
